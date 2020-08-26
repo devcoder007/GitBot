@@ -1,0 +1,38 @@
+version: 2.1
+
+executors:
+  python-lambda:
+    docker:
+      - image: lambci/lambda:build-python3.7
+
+jobs:
+  build:
+    executor: python-lambda
+    steps:
+      - checkout
+      - run: git fetch --unshallow || true
+
+      - run: mkdir -p release
+
+      - run:
+        name: Install dependencies
+        command: |
+          apt-get update
+          apt-get install -y jq zip python3-pip
+          cd bot
+          pip install -r requirements.txt -t .
+          cd ../
+
+      - run:
+          name: Package application
+          command: |
+            cd bot
+            zip -r -g ../release/slack-bot.zip .
+            cd ../
+      - deploy:
+          command: |
+            if [ "$CIRCLE_PROJECT_USERNAME" == "devcoder007" ]; then
+              if [[ "$CIRCLE_BRANCH" == "master" ]]; then
+                ./scripts/release.sh release
+              fi
+            fi

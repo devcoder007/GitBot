@@ -1,0 +1,6 @@
+boto3==1.12.2
+aiohttp==3.6.2
+botocore==1.15.9
+slack==0.0.2
+slackclient==2.8.0
+slackeventsapi==2.2.1
