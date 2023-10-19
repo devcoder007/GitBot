@@ -1,11 +1,10 @@
 from slack import WebClient
-import os
 from slack.errors import SlackApiError
 from slackeventsapi import SlackEventAdapter
 from dynamo_search import search
 from get_secrets import get_secret
 
-client = WebClient(token=os.environ['SLACK_TOKEN'])
+client = WebClient(token=get_secret())
 
 
 

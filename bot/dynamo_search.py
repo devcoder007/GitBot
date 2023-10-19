@@ -5,11 +5,11 @@ dynamodb = session.client('dynamodb',region_name='us-west-2')
 tableName = "slack--user"
 
 
-def search():
+def search(user):
     response = dynamodb.get_item(
     Key={
     'GithubUserID': {
-        'S': "shrikant1212",
+        'S': user,
     }
     },
     TableName=tableName,
